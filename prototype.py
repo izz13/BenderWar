@@ -8,18 +8,43 @@ clock = pygame.time.Clock()
 fps = 60
 
 screenFill = (255, 255, 255)
+blue = (0, 0, 255)
+tlc = pygame.Rect(10, 10, 50, 50)
+trc = pygame.Rect(740, 10, 50, 50)
+blc = pygame.Rect(10, 580, 50, 50)
+brc = pygame.Rect(740, 580, 50, 50)
+objects = [tlc, trc, blc, brc]
 
 playerEarthbender = player.Player(150, "EARTH.png", 40, "earth")
 playerairbndr = player.Player(100, "airbender.png", 40, "air")
 player = playerEarthbender
 
+def move(objects,playervlx,playervly):
+    vlx = 0
+    vly = 0
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_d]:
+        vlx=-playervlx
+    if keys[pygame.K_a]:
+        vlx=playervlx
+    if keys[pygame.K_w]:
+        vly=playervly
+    if keys[pygame.K_s]:
+        vly=-playervly
+    for object in objects:
+        object.x += vlx
+        object.y += vly
+
 isRunning = True
 while isRunning==True:
     events = pygame.event.get()
     for event in events:
-        if event.type==pygame.QUIT:
+        if event.type == pygame.QUIT:
             isRunning = False
     screen.fill(screenFill)
+    move(objects, player.speed, player.speed)
+    for object in objects:
+        pygame.draw.rect(screen, blue, object)
     player.update(screen)
     pygame.display.flip()
     clock.tick(fps)

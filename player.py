@@ -7,8 +7,8 @@ class Player:
         self.dmg = dmg
         self.elmt = elmt
         self.image = pygame.image.load(image)
-        self.x = 250
-        self.y = 250
+        self.x = 368
+        self.y = 288
         self.w = 64
         self.h = 64
         self.rect = self.image.get_bounding_rect()
@@ -37,4 +37,4 @@ class Player:
             self.y = 640-self.h
     def update(self, screen):
         self.render(screen)
-        self.move()
+    #   self.move()
