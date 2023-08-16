@@ -1,4 +1,5 @@
 import pygame
+import player
 
 pygame.init()
 size = [800, 640]
@@ -7,6 +8,7 @@ clock = pygame.time.Clock()
 fps = 60
 
 green = (0, 255, 0)
+
 
 isRunning = True
 while isRunning==True:
