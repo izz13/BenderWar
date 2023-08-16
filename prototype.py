@@ -9,6 +9,7 @@ fps = 60
 
 green = (0, 255, 0)
 
+playerEarthbender = player.Player(150, "EARTH.png", 40, "earth")
 
 isRunning = True
 while isRunning==True:
