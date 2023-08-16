@@ -6,12 +6,12 @@ class Player:
         self.dmg = dmg
         self.elmt = elmt
         self.image = pygame.image.load(image)
-        self.x = 0
-        self.y = 0
+        self.x = 250
+        self.y = 250
         self.rect = self.image.get_bounding_rect()
     def render(self, screen):
-        self.rect.center.x = self.x
-        self.rect.center.y = self.y
+        self.rect.centerx = self.x
+        self.rect.centery = self.y
         screen.blit(self.image, self.rect)
 
     def update(self, screen):
