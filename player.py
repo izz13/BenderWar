@@ -1,9 +1,10 @@
 import pygame
 
 class Player:
-    def __init__(self, hp, image, dmg, elmt, speed = 3):
+    def __init__(self, hp, image, dmg, elmt, sprint = 8, speed = 4):
         self.hp = hp
         self.speed = speed
+        self.sprint = sprint
         self.dmg = dmg
         self.elmt = elmt
         self.image = pygame.image.load(image)

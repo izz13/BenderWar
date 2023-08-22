@@ -31,6 +31,11 @@ def move(objects,playervlx,playervly):
         vly=playervly
     if keys[pygame.K_s]:
         vly=-playervly
+    if keys[pygame.K_LSHIFT]:
+        if vlx!=0:
+            vlx = vlx*2
+        if vly!=0:
+            vly = vly*2
     for object in objects:
         object.x += vlx
         object.y += vly
