@@ -6,4 +6,4 @@ fire benders from
 the avatar series.
 We hope you have a
 great time playing 
-this game!
+this game.

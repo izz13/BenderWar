@@ -13,7 +13,7 @@ tlc = pygame.Rect(10, 10, 50, 50)
 trc = pygame.Rect(740, 10, 50, 50)
 blc = pygame.Rect(10, 580, 50, 50)
 brc = pygame.Rect(740, 580, 50, 50)
-objects = [tlc, trc, blc, brc]
+objects = [tlc, trc, blc,brc]
 
 playerEarthbender = player.Player(150, "EARTH.png", 40, "earth")
 playerairbndr = player.Player(100, "airbender.png", 40, "air")
