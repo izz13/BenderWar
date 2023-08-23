@@ -18,7 +18,7 @@ objects = [tlc, trc, blc,brc]
 playerEarthbender = player.Player(150, "EARTH.png", 40, "earth", "airslash.png")
 playerairbndr = player.Player(100, "airbender.png", 40, "air", "airslash.png")
 playerwtrbndr = player.Player(100,"waterbender.png", 40, "water", "airslash.png")
-player = playerwtrbndr
+player = playerEarthbender
 
 def move(objects,playervlx,playervly):
     vlx = 0
@@ -40,7 +40,14 @@ def move(objects,playervlx,playervly):
     for object in objects:
         object.x += vlx
         object.y += vly
-
+        if object.x > 800-object.width:
+            object.x=0
+        if object.x < 0:
+            object.x=800-object.width
+        if object.y > 640-object.height:
+            object.y=0
+        if object.y < 0:
+            object.y=640-object.height
 isRunning = True
 while isRunning==True:
     events = pygame.event.get()

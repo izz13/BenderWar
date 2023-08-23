@@ -10,8 +10,8 @@ class Player:
         self.elmt = elmt
         self.basic_attack_image = pygame.image.load(basic_attack_image)
         self.image = pygame.image.load(image)
-        self.x = 368
-        self.y = 288
+        self.x = 380
+        self.y = 320
         self.w = 64
         self.h = 64
         self.rect = self.image.get_bounding_rect()
@@ -47,7 +47,8 @@ class Player:
         direction.scale_to_length(50)
         attack_pos = (400+direction[0], 320+direction[1])
         attack_rect.center = attack_pos
-        pygame.draw.rect(screen, (255, 0, 0), attack_rect)
+        screen.blit(self.basic_attack_image,attack_rect)
+        #pygame.draw.rect(screen, (255, 0, 0), attack_rect)
 
     def attack(self, screen):
         mouse_pos = (0, 0)
