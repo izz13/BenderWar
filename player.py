@@ -1,4 +1,5 @@
 import pygame
+from pygame.math import Vector2
 
 class Player:
     def __init__(self, hp, image, dmg, elmt, basic_attack_image, sprint = 8, speed = 4):
@@ -39,7 +40,13 @@ class Player:
             self.y = 640-self.h
     def basic_attack(self, pos, screen):
         attack_rect = pygame.Rect(0, 0, 32, 32)
-        attack_rect.center = pos
+        x = pos[0]-self.x
+        y = pos[1]-self.y
+        direction = Vector2(x, y)
+        direction = direction.normalize()
+        direction.scale_to_length(50)
+        attack_pos = (400+direction[0], 320+direction[1])
+        attack_rect.center = attack_pos
         pygame.draw.rect(screen, (255, 0, 0), attack_rect)
 
     def attack(self, screen):
