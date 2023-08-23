@@ -17,7 +17,8 @@ objects = [tlc, trc, blc, brc]
 
 playerEarthbender = player.Player(150, "EARTH.png", 40, "earth")
 playerairbndr = player.Player(100, "airbender.png", 40, "air")
-player = playerEarthbender
+playerwtrbndr = player.Player(100,"waterbender.png", 40, "water")
+player = playerwtrbndr
 
 def move(objects,playervlx,playervly):
     vlx = 0
