@@ -1,12 +1,13 @@
 import pygame
 
 class Player:
-    def __init__(self, hp, image, dmg, elmt, sprint = 8, speed = 4):
+    def __init__(self, hp, image, dmg, elmt, basic_attack_image, sprint = 8, speed = 4):
         self.hp = hp
         self.speed = speed
         self.sprint = sprint
         self.dmg = dmg
         self.elmt = elmt
+        self.basic_attack_image = pygame.image.load(basic_attack_image)
         self.image = pygame.image.load(image)
         self.x = 368
         self.y = 288
@@ -36,6 +37,17 @@ class Player:
             self.y = 0
         if self.y>640-self.h:
             self.y = 640-self.h
+    def basic_attack(self, pos, screen):
+        attack_rect = pygame.Rect(0, 0, 32, 32)
+        attack_rect.center = pos
+        pygame.draw.rect(screen, (255, 0, 0), attack_rect)
+
+    def attack(self, screen):
+        mouse_pos = (0, 0)
+        if pygame.mouse.get_pressed()[0]:
+            mouse_pos = pygame.mouse.get_pos()
+            self.basic_attack(mouse_pos, screen)
+
     def update(self, screen):
         self.render(screen)
-    #   self.move()
+        self.attack(screen)
