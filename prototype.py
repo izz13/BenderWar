@@ -19,7 +19,8 @@ objects = [tlc, trc, blc,brc]
 playerEarthbender = player.Player(150, "EARTH.png", 40, "earth", "EarthAttack.png")
 playerairbndr = player.Player(100, "airbender.png", 40, "air", "airslash.png")
 playerwtrbndr = player.Player(100,"waterbender.png", 40, "water", "wtrwp.png")
-player = playerwtrbndr
+playerfireboonder = player.Player(90, "FireBender.png", 35, "fire", "FireAttack.png")
+player = playerfireboonder
 airtrt = turret.Turret(400, 580, 100, "airtrt.png", "air")
 turrets = [airtrt]
 
@@ -66,7 +67,7 @@ while isRunning==True:
     for object in objects:
         pygame.draw.rect(screen, blue, object)
     for turret in turrets:
-        turret.update(screen)
+        turret.update(screen, player.x, player.y)
     player.update(screen, tick)
     pygame.display.flip()
     clock.tick(fps)
