@@ -2,7 +2,7 @@ import pygame
 from pygame.math import Vector2
 
 class Player:
-    def __init__(self, hp, image, dmg, elmt, basic_attack_image, sprint = 8, speed = 4):
+    def __init__(self, hp, image, dmg, elmt, basic_attack_image, sprint=8, speed=4, basicattackcooldown=500, basicattackl=500):
         self.hp = hp
         self.speed = speed
         self.sprint = sprint
@@ -15,6 +15,11 @@ class Player:
         self.w = 64
         self.h = 64
         self.rect = self.image.get_bounding_rect()
+        self.attack_timer = 0
+        self.basicattackcooldown = basicattackcooldown
+        self.basicattackl = basicattackl
+        self.basicattacktimer = 0
+        self.basicattack = False
     def render(self, screen):
         self.rect.centerx = self.x
         self.rect.centery = self.y
@@ -47,15 +52,25 @@ class Player:
         direction.scale_to_length(50)
         attack_pos = (400+direction[0], 320+direction[1])
         attack_rect.center = attack_pos
-        screen.blit(self.basic_attack_image,attack_rect)
+        screen.blit(self.basic_attack_image, attack_rect)
         #pygame.draw.rect(screen, (255, 0, 0), attack_rect)
 
-    def attack(self, screen):
-        mouse_pos = (0, 0)
-        if pygame.mouse.get_pressed()[0]:
-            mouse_pos = pygame.mouse.get_pos()
-            self.basic_attack(mouse_pos, screen)
+    def attack(self, screen, dt):
+        mouse_pos = pygame.mouse.get_pos()
+        if pygame.mouse.get_pressed()[0] and self.attack_timer >= self.basicattackcooldown:
+            self.basicattack = True
+            self.attack_timer = 0
+        if self.basicattack == True:
+            if self.basicattacktimer <= self.basicattackl:
+                self.basicattacktimer += dt
+                self.basic_attack(mouse_pos, screen)
+            else:
+                self.basicattacktimer = 0
+                self.basicattack = False
+        if self.basicattack == False and self.attack_timer <= self.basicattackcooldown:
+            self.attack_timer += dt
 
-    def update(self, screen):
+
+    def update(self, screen, dt):
         self.render(screen)
-        self.attack(screen)
+        self.attack(screen, dt)
