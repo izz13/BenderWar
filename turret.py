@@ -45,8 +45,7 @@ class Projectile:
         self.rect.center = [self.x, self.y]
         pygame.draw.rect(screen, [99, 66, 00], self.rect)
     def move(self):
-        vel = self.direction.scale_to_length(self.speed)
-        print(vel)
+        vel = self.direction
         self.x += vel[0]
         self.y += vel[1]
     def update(self, screen):
