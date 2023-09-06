@@ -1,5 +1,6 @@
 import pygame
 import player
+import turret
 
 pygame.init()
 size = [800, 640]
@@ -17,10 +18,12 @@ objects = [tlc, trc, blc,brc]
 
 playerEarthbender = player.Player(150, "EARTH.png", 40, "earth", "EarthAttack.png")
 playerairbndr = player.Player(100, "airbender.png", 40, "air", "airslash.png")
-playerwtrbndr = player.Player(100,"waterbender.png", 40, "water", "airslash.png")
-player = playerEarthbender
+playerwtrbndr = player.Player(100,"waterbender.png", 40, "water", "wtrwp.png")
+player = playerwtrbndr
+airtrt = turret.Turret(400, 580, 100, "airtrt.png", "air")
+turrets = [airtrt]
 
-def move(objects,playervlx,playervly):
+def move(objects, playervlx, playervly, turrets):
     vlx = 0
     vly = 0
     keys = pygame.key.get_pressed()
@@ -48,17 +51,23 @@ def move(objects,playervlx,playervly):
             object.y=0
         if object.y < 0:
             object.y=640-object.height
+    for turret in turrets:
+        turret.x += vlx
+        turret.y += vly
 isRunning = True
 while isRunning==True:
+    tick=clock.get_time()
     events = pygame.event.get()
     for event in events:
         if event.type == pygame.QUIT:
             isRunning = False
     screen.fill(screenFill)
-    move(objects, player.speed, player.speed)
+    move(objects, player.speed, player.speed, turrets)
     for object in objects:
         pygame.draw.rect(screen, blue, object)
-    player.update(screen)
+    for turret in turrets:
+        turret.update(screen)
+    player.update(screen, tick)
     pygame.display.flip()
     clock.tick(fps)
 
