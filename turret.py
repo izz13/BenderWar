@@ -12,6 +12,8 @@ class Turret:
         self.attackRange = attackRange
         self.rect = self.image.get_bounding_rect()
         self.projectiles = []
+        self.cooldown = 0
+        self.cooldownl = 250
     def render(self, screen):
         self.rect.centerx = self.x
         self.rect.centery = self.y
@@ -26,8 +28,12 @@ class Turret:
     def attack(self, px, py):
         d, dx, dy = self.distance(px, py)
         if d <= self.attackRange:
-            pdirection = Vector2(dx, dy)
-            self.projectiles.append(Projectile(self.x, self.y, 3, pdirection))
+            if self.cooldown < self.cooldownl:
+                self.cooldown += 1
+            else:
+                pdirection = Vector2(dx, dy)
+                self.projectiles.append(Projectile(self.x, self.y, 3, pdirection))
+                self.cooldown = 0
     def update(self, screen, px, py):
         self.render(screen)
         self.attack(px, py)
@@ -45,7 +51,7 @@ class Projectile:
         self.rect.center = [self.x, self.y]
         pygame.draw.rect(screen, [99, 66, 00], self.rect)
     def move(self):
-        vel = self.direction
+        vel = self.direction.normalize()
         self.x += vel[0]
         self.y += vel[1]
     def update(self, screen):
