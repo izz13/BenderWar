@@ -13,7 +13,7 @@ class Turret:
         self.rect = self.image.get_bounding_rect()
         self.projectiles = []
         self.cooldown = 0
-        self.cooldownl = 250
+        self.cooldownl = 50
     def render(self, screen):
         self.rect.centerx = self.x
         self.rect.centery = self.y

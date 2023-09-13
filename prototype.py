@@ -55,6 +55,10 @@ def move(objects, playervlx, playervly, turrets):
     for turret in turrets:
         turret.x += vlx
         turret.y += vly
+        if len(turret.projectiles):
+            for p in turret.projectiles:
+                p.x += vlx
+                p.y += vly
 isRunning = True
 while isRunning==True:
     tick=clock.get_time()
