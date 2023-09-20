@@ -75,6 +75,8 @@ class Player:
                 self.basicattack = False
         if self.basicattack == False and self.attack_timer <= self.basicattackcooldown:
             self.attack_timer += dt
+    def gothit(self, dmg):
+        self.hp -= dmg
 
 
     def update(self, screen, dt):
