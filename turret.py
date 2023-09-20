@@ -13,7 +13,7 @@ class Turret:
         self.rect = self.image.get_bounding_rect()
         self.projectiles = []
         self.cooldown = 0
-        self.cooldownl = 1
+        self.cooldownl = 10
         self.projectileimage = pygame.image.load(pimage)
     def render(self, screen):
         self.rect.centerx = self.x
@@ -49,14 +49,18 @@ class Projectile:
         self.direction = direction
         self.rect = pygame.Rect(self.x, self.y, 32, 32)
         self.image = image
+        self.destroyed = False
     def render(self, screen):
         self.rect.center = [self.x, self.y]
         screen.blit(self.image,self.rect)
         #pygame.draw.rect(screen, [99, 66, 00], self.rect)
     def move(self):
-        vel = self.direction.normalize()
-        self.x += vel[0] * self.speed
-        self.y += vel[1] * self.speed
+        if self.direction.length() != 0:
+            vel = self.direction.normalize()
+            self.x += vel[0] * self.speed
+            self.y += vel[1] * self.speed
+    def destroy(self):
+
     def update(self, screen):
         self.move()
         self.render(screen)
