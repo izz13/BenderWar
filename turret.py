@@ -3,7 +3,7 @@ import math
 from pygame.math import Vector2
 
 class Turret:
-    def __init__(self, x, y, hp, image, elmt, attackRange=150):
+    def __init__(self, x, y, hp, image, elmt, attackRange=450, pimage="airslash.png"):
         self.x = x
         self.y = y
         self.hp = hp
@@ -13,7 +13,8 @@ class Turret:
         self.rect = self.image.get_bounding_rect()
         self.projectiles = []
         self.cooldown = 0
-        self.cooldownl = 50
+        self.cooldownl = 1
+        self.projectileimage = pygame.image.load(pimage)
     def render(self, screen):
         self.rect.centerx = self.x
         self.rect.centery = self.y
@@ -32,7 +33,7 @@ class Turret:
                 self.cooldown += 1
             else:
                 pdirection = Vector2(dx, dy)
-                self.projectiles.append(Projectile(self.x, self.y, 3, pdirection))
+                self.projectiles.append(Projectile(self.x, self.y, 5, pdirection, self.projectileimage))
                 self.cooldown = 0
     def update(self, screen, px, py):
         self.render(screen)
@@ -41,19 +42,21 @@ class Turret:
             for p in self.projectiles:
                 p.update(screen)
 class Projectile:
-    def __init__(self, x, y, speed, direction):
+    def __init__(self, x, y, speed, direction, image):
         self.x = x
         self.y = y
         self.speed = speed
         self.direction = direction
         self.rect = pygame.Rect(self.x, self.y, 32, 32)
+        self.image = image
     def render(self, screen):
         self.rect.center = [self.x, self.y]
-        pygame.draw.rect(screen, [99, 66, 00], self.rect)
+        screen.blit(self.image,self.rect)
+        #pygame.draw.rect(screen, [99, 66, 00], self.rect)
     def move(self):
         vel = self.direction.normalize()
-        self.x += vel[0]
-        self.y += vel[1]
+        self.x += vel[0] * self.speed
+        self.y += vel[1] * self.speed
     def update(self, screen):
         self.move()
         self.render(screen)

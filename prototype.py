@@ -22,7 +22,8 @@ playerwtrbndr = player.Player(100,"waterbender.png", 40, "water", "wtrwp.png")
 playerfireboonder = player.Player(90, "FireBender.png", 35, "fire", "FireAttack.png")
 player = playerfireboonder
 airtrt = turret.Turret(400, 580, 100, "airtrt.png", "air")
-turrets = [airtrt]
+wtrtrt = turret.Turret(64, 320, 100, "wtrtrt.png", "water", pimage="wtrwp.png")
+turrets = [airtrt, wtrtrt]
 
 def move(objects, playervlx, playervly, turrets):
     vlx = 0
