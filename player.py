@@ -4,6 +4,7 @@ from pygame.math import Vector2
 class Player:
     def __init__(self, hp, image, dmg, elmt, basic_attack_image, sprint=8, speed=4, basicattackcooldown=500, basicattackl=500):
         self.hp = hp
+        self.max_hp = hp
         self.speed = speed
         self.sprint = sprint
         self.dmg = dmg
@@ -20,10 +21,15 @@ class Player:
         self.basicattackl = basicattackl
         self.basicattacktimer = 0
         self.basicattack = False
+        self.healthRect = pygame.Rect(self.x-32, self.y-70, self.hp, 25)
+        self.damageRect = pygame.Rect(self.x-32, self.y-70, self.max_hp, 25)
     def render(self, screen):
         self.rect.centerx = self.x
         self.rect.centery = self.y
         screen.blit(self.image, self.rect)
+        self.healthRect.width = self.hp
+        pygame.draw.rect(screen, (255, 0, 0), self.damageRect)
+        pygame.draw.rect(screen, (0, 255, 0), self.healthRect)
 
     def move(self):
         keys = pygame.key.get_pressed()
