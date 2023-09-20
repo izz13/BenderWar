@@ -72,7 +72,7 @@ while isRunning==True:
     for object in objects:
         pygame.draw.rect(screen, blue, object)
     for turret in turrets:
-        turret.update(screen, player.x, player.y)
+        turret.update(screen, player.x, player.y, tick)
     player.update(screen, tick)
     pygame.display.flip()
     clock.tick(fps)

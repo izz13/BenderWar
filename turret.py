@@ -35,12 +35,14 @@ class Turret:
                 pdirection = Vector2(dx, dy)
                 self.projectiles.append(Projectile(self.x, self.y, 5, pdirection, self.projectileimage))
                 self.cooldown = 0
-    def update(self, screen, px, py):
+    def update(self, screen, px, py, dt):
         self.render(screen)
         self.attack(px, py)
         if len(self.projectiles) > 0:
             for p in self.projectiles:
-                p.update(screen)
+                p.update(screen, dt)
+                if p.destroyed:
+                    self.projectiles.remove(p)
 class Projectile:
     def __init__(self, x, y, speed, direction, image):
         self.x = x
@@ -50,6 +52,8 @@ class Projectile:
         self.rect = pygame.Rect(self.x, self.y, 32, 32)
         self.image = image
         self.destroyed = False
+        self.timer = 0
+        self.timerl = 10000
     def render(self, screen):
         self.rect.center = [self.x, self.y]
         screen.blit(self.image,self.rect)
@@ -59,8 +63,13 @@ class Projectile:
             vel = self.direction.normalize()
             self.x += vel[0] * self.speed
             self.y += vel[1] * self.speed
-    def destroy(self):
+    def destroy(self, dt):
 
-    def update(self, screen):
+        if self.timer >= self.timerl:
+            self.destroyed = True
+        else:
+            self.timer += dt
+    def update(self, screen, dt):
         self.move()
         self.render(screen)
+        self.destroy(dt)
