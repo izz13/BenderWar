@@ -49,7 +49,7 @@ class Player:
             self.y = 0
         if self.y>640-self.h:
             self.y = 640-self.h
-    def basic_attack(self, pos, screen):
+    def basic_attack(self, pos, screen, objects):
         attack_rect = pygame.Rect(0, 0, 32, 32)
         x = pos[0]-self.x
         y = pos[1]-self.y
@@ -59,9 +59,18 @@ class Player:
         attack_pos = (400+direction[0], 320+direction[1])
         attack_rect.center = attack_pos
         screen.blit(self.basic_attack_image, attack_rect)
+        for object in objects:
+            hit = False
+            for i in object:
+                if attack_rect.colliderect(i.rect):
+                    i.hp-=self.dmg
+                    hit = True
+                    break
+            if hit==True:
+                break
         #pygame.draw.rect(screen, (255, 0, 0), attack_rect)
 
-    def attack(self, screen, dt):
+    def attack(self, screen, dt, objects):
         mouse_pos = pygame.mouse.get_pos()
         if pygame.mouse.get_pressed()[0] and self.attack_timer >= self.basicattackcooldown:
             self.basicattack = True
@@ -69,7 +78,7 @@ class Player:
         if self.basicattack == True:
             if self.basicattacktimer <= self.basicattackl:
                 self.basicattacktimer += dt
-                self.basic_attack(mouse_pos, screen)
+                self.basic_attack(mouse_pos, screen, objects)
             else:
                 self.basicattacktimer = 0
                 self.basicattack = False
@@ -79,6 +88,6 @@ class Player:
         self.hp -= dmg
 
 
-    def update(self, screen, dt):
+    def update(self, screen, dt, objects):
         self.render(screen)
-        self.attack(screen, dt)
+        self.attack(screen, dt, objects)

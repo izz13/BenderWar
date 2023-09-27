@@ -15,10 +15,24 @@ class Turret:
         self.cooldown = 0
         self.cooldownl = 10
         self.projectileimage = pygame.image.load(pimage)
-    def render(self, screen):
+        self.max_hp = hp
+        self.healthRect = pygame.Rect(self.x-32, self.y-70, self.hp, 25)
+        self.damageRect = pygame.Rect(self.x-32, self.y-70, self.max_hp, 25)
+
+    def render(self, screen, vlx, vly):
+        self.x += vlx
+        self.y += vly
         self.rect.centerx = self.x
         self.rect.centery = self.y
         screen.blit(self.image, self.rect)
+        self.healthRect.width = self.hp
+        self.damageRect.x += vlx
+        self.damageRect.y += vly
+        self.healthRect.x += vlx
+        self.healthRect.y += vly
+        pygame.draw.rect(screen, (255, 0, 0), self.damageRect)
+        pygame.draw.rect(screen, (0, 255, 0), self.healthRect)
+
 
     def distance(self, Px, Py):
         dx = Px-self.x
@@ -35,12 +49,12 @@ class Turret:
                 pdirection = Vector2(dx, dy)
                 self.projectiles.append(Projectile(self.x, self.y,5, pdirection, self.projectileimage, 5))
                 self.cooldown = 0
-    def update(self, screen, px, py, dt, player):
-        self.render(screen)
+    def update(self, screen, px, py, dt, player, vlx, vly):
+        self.render(screen, vlx, vly)
         self.attack(px, py)
         if len(self.projectiles) > 0:
             for p in self.projectiles:
-                p.update(screen, dt, player)
+                p.update(screen, dt, player, vlx, vly)
                 if p.destroyed:
                     self.projectiles.remove(p)
 class Projectile:
@@ -55,7 +69,9 @@ class Projectile:
         self.timer = 0
         self.timerl = 10000
         self.dmg = dmg
-    def render(self, screen):
+    def render(self, screen, vlx, vly):
+        self.x += vlx
+        self.y += vly
         self.rect.center = [self.x, self.y]
         screen.blit(self.image,self.rect)
         #pygame.draw.rect(screen, [99, 66, 00], self.rect)
@@ -75,8 +91,11 @@ class Projectile:
             player.gothit(self.dmg)
             self.destroyed = True
 
-    def update(self, screen, dt, player):
+    def gothit(self, dmg):
+        self.hp -= dmg
+
+    def update(self, screen, dt, player, vlx, vly):
         self.move()
-        self.render(screen)
+        self.render(screen, vlx, vly)
         self.destroy(dt)
         self.hitplayer(player)
