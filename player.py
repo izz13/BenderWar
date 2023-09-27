@@ -59,15 +59,21 @@ class Player:
         attack_pos = (400+direction[0], 320+direction[1])
         attack_rect.center = attack_pos
         screen.blit(self.basic_attack_image, attack_rect)
-        for object in objects:
+        keys = objects.keys()
+        for k in keys:
             hit = False
-            for i in object:
-                if attack_rect.colliderect(i.rect):
-                    i.hp-=self.dmg
+            for o in objects[k]:
+                if attack_rect.colliderect(o.rect):
+                    o.hp-=self.dmg
+                    self.basicattack = False
+                    self.basicattacktimer = 0
+                    self.attacktimer = 0
                     hit = True
                     break
-            if hit==True:
+            if hit:
                 break
+
+
         #pygame.draw.rect(screen, (255, 0, 0), attack_rect)
 
     def attack(self, screen, dt, objects):

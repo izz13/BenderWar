@@ -19,7 +19,7 @@ objects = [tlc, trc, blc, brc]
 playerEarthbender = player.Player(150, "EARTH.png", 40, "earth", "EarthAttack.png")
 playerairbndr = player.Player(100, "airbender.png", 40, "air", "airslash.png")
 playerwtrbndr = player.Player(100,"waterbender.png", 40, "water", "wtrwp.png")
-playerfireboonder = player.Player(90, "FireBender.png", 35, "fire", "FireAttackA.png")
+playerfireboonder = player.Player(90, "FireBender.png", 35, "fire", "FireAttack.png")
 player = playerfireboonder
 airtrt = turret.Turret(400, 580, 100, "airtrt.png", "air")
 wtrtrt = turret.Turret(64, 320, 100, "wtrtrt.png", "water", pimage="wtrwp.png")
@@ -74,7 +74,9 @@ while isRunning==True:
         pygame.draw.rect(screen, blue, object)
     for turret in hitObjects["turrets"]:
         turret.update(screen, player.x, player.y, tick, player, vlx, vly)
-    player.update(screen, tick, objects)
+        if turret.destroyed:
+            hitObjects["turrets"].remove(turret)
+    player.update(screen, tick, hitObjects)
     if player.hp<=0:
         isRunning = False
     pygame.display.flip()

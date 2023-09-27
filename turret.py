@@ -13,11 +13,12 @@ class Turret:
         self.rect = self.image.get_bounding_rect()
         self.projectiles = []
         self.cooldown = 0
-        self.cooldownl = 10
+        self.cooldownl = 50
         self.projectileimage = pygame.image.load(pimage)
         self.max_hp = hp
         self.healthRect = pygame.Rect(self.x-32, self.y-70, self.hp, 25)
         self.damageRect = pygame.Rect(self.x-32, self.y-70, self.max_hp, 25)
+        self.destroyed = False
 
     def render(self, screen, vlx, vly):
         self.x += vlx
@@ -49,6 +50,10 @@ class Turret:
                 pdirection = Vector2(dx, dy)
                 self.projectiles.append(Projectile(self.x, self.y,5, pdirection, self.projectileimage, 5))
                 self.cooldown = 0
+
+    def destroy(self):
+        if self.hp <=0:
+            self.destroyed = True
     def update(self, screen, px, py, dt, player, vlx, vly):
         self.render(screen, vlx, vly)
         self.attack(px, py)
@@ -57,6 +62,7 @@ class Turret:
                 p.update(screen, dt, player, vlx, vly)
                 if p.destroyed:
                     self.projectiles.remove(p)
+        self.destroy()
 class Projectile:
     def __init__(self, x, y, speed, direction, image, dmg):
         self.x = x
