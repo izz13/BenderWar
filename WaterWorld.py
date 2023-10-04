@@ -1,6 +1,14 @@
 import pygame
 import player
+import turret
 from move import move
+from random import randint
+
+"""
+Jayden's to-do list: 
+1. make a for loop that make 20 turret objects with random pos
+2. make a counter for remaining turrets
+"""
 
 
 pygame.init()
@@ -22,6 +30,10 @@ bkrdpos = [0,0]
 hitObjects = {
     "turrets": []
 }
+
+for i in range(20):
+    hitObjects["turrets"].append(turret.Turret(randint(0,3200), randint(0,2560), randint(1,200), "wtrtrt.png", "water", pimage="wtrwp.png"))
+
 isRunning = True
 while isRunning==True:
     tick=clock.get_time()
@@ -44,8 +56,11 @@ while isRunning==True:
         vly = 0
     bkrdpos[0] += vlx
     bkrdpos[1] += vly
-    print(bkrdpos)
     screen.blit(wtrbkrd, bkrdpos)
+    for turret in hitObjects["turrets"]:
+        turret.update(screen, player.x, player.y, tick, player, vlx, vly)
+        if turret.destroyed:
+            hitObjects["turrets"].remove(turret)
     player.update(screen, tick, hitObjects)
 
     pygame.display.flip()
