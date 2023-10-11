@@ -25,10 +25,27 @@ airtrt = turret.Turret(400, 580, 100, "airtrt.png", "air")
 wtrtrt = turret.Turret(64, 320, 100, "wtrtrt.png", "water", pimage="wtrwp.png")
 earthtrt = turret.Turret(800, 620, 100, "earthTurret.png", "earth", pimage="EarthturretAttack.png")
 firetrt = turret.Turret(900, 790, 100, "fireTurret.png", "fire", pimage="fireturretAttack.png")
+commonGuard = turret.Turret(100, 859, 100, "commonTurret.png", "common", pimage="commonAttack.png")
+commonGuard1 = turret.Turret(100, 859, 100, "commonTurret.png", "common", pimage="commonAttack.png")
+commonGuard2 = turret.Turret(100, 859, 100, "commonTurret.png", "common", pimage="commonAttack.png")
+commonGuard3 = turret.Turret(100, 859, 100, "commonTurret.png", "common", pimage="commonAttack.png")
+threeshooter = turret.Turret(100, 859, 100, "commonTurret.png", "common", pimage="commonAttack.png")
+threeshooter1 = turret.Turret(100, 859, 100, "commonTurret.png", "common", pimage="commonAttack.png")
+threeshooter2 = turret.Turret(100, 859, 100, "commonTurret.png", "common", pimage="commonAttack.png")
+commonGuard4 = turret.Turret(100, 859, 100, "commonTurret.png", "common", pimage="commonAttack.png")
+commonGuard5 = turret.Turret(100, 859, 100, "commonTurret.png", "common", pimage="commonAttack.png")
+commonGuard6 = turret.Turret(100, 859, 100, "commonTurret.png", "common", pimage="commonAttack.png")
+commonGuard7 = turret.Turret(100, 859, 100, "commonTurret.png", "common", pimage="commonAttack.png")
+commonGuard8 = turret.Turret(100, 859, 100, "commonTurret.png", "common", pimage="commonAttack.png")
+commonGuard9 = turret.Turret(100, 859, 100, "commonTurret.png", "common", pimage="commonAttack.png")
+commonGuard10 = turret.Turret(100, 859, 100, "commonTurret.png", "common", pimage="commonAttack.png")
+commonGuard11 = turret.Turret(100, 859, 100, "commonTurret.png", "common", pimage="commonAttack.png")
+commonGuard12 = turret.Turret(100, 859, 100, "commonTurret.png", "common", pimage="commonAttack.png")
+commonGuard13 = turret.Turret(100, 859, 100, "commonTurret.png", "common", pimage="commonAttack.png")
+commonGuard14 = turret.Turret(100, 859, 100, "commonTurret.png", "common", pimage="commonAttack.png")
+commonGuard15 = turret.Turret(100, 859, 100, "commonTurret.png", "common", pimage="commonAttack.png")
 
-hitObjects = {
-    "turrets": [airtrt, wtrtrt, firetrt, earthtrt]
-}
+hitObjects = {"turrets": [airtrt, wtrtrt, firetrt, earthtrt, commonGuard, commonGuard1, commonGuard2, commonGuard3, threeshooter, threeshooter1, threeshooter2, commonGuard4, commonGuard5, commonGuard6, commonGuard7, commonGuard8, commonGuard9, commonGuard10, commonGuard11, commonGuard12, commonGuard13]}
 
 def move(playervlx, playervly):
     keys = pygame.key.get_pressed()
