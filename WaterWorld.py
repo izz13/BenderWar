@@ -6,7 +6,6 @@ from random import randint
 
 """
 Jayden's to-do list: 
-1. make a for loop that make 20 turret objects with random pos
 2. make a counter for remaining turrets
 """
 
@@ -16,27 +15,54 @@ size = [800, 640]
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 fps = 60
+white = (255, 255, 255)
+green = (0, 255, 0)
+blue = (0, 0, 128)
+
+# assigning values to X and Y variable
+textx = 0
+texty = 0
+
+# create the display surface object
+# of specific dimension..e(X, Y).
+display_surface = pygame.display.set_mode((textx, texty))
+
+# set the pygame window name
+pygame.display.set_caption('Show Text')
+
+# create a font object.
+# 1st parameter is the font file
+# which is present in pygame.
+# 2nd parameter is size of the font
+font = pygame.font.Font('freesansbold.ttf', 32)
+
+# create a text surface object,
+# on which text is drawn on it.
+
+# create a rectangular object for the
+# text surface object
 
 wtrbkrd = pygame.image.load("wtrbkgd.png")
 
 playerEarthbender = player.Player(150, "EARTH.png", 40, "earth", "EarthAttack.png")
 playerairbndr = player.Player(100, "airbender.png", 40, "air", "airslash.png")
-playerwtrbndr = player.Player(100,"waterbender.png", 40, "water", "wtrwp.png")
+playerwtrbndr = player.Player(100, "waterbender.png", 40, "water", "wtrwp.png")
 playerfireboonder = player.Player(90, "FireBender.png", 35, "fire", "FireAttack.png")
 player = playerfireboonder
 
-bkrdpos = [0,0]
+bkrdpos = [0, 0]
 
 hitObjects = {
     "turrets": []
 }
 
-for i in range(20):
-    hitObjects["turrets"].append(turret.Turret(randint(0,3200), randint(0,2560), randint(1,200), "wtrtrt.png", "water", pimage="wtrwp.png"))
+tn = 20
 
+for i in range(tn):
+    hitObjects["turrets"].append(turret.Turret(randint(0, 2800), randint(0, 2240), randint(1, 120), "wtrtrt.png", "water", pimage="wtrwp.png"))
 isRunning = True
-while isRunning==True:
-    tick=clock.get_time()
+while isRunning:
+    tick = clock.get_time()
     events = pygame.event.get()
     for event in events:
         if event.type == pygame.QUIT:
@@ -61,36 +87,13 @@ while isRunning==True:
         turret.update(screen, player.x, player.y, tick, player, vlx, vly)
         if turret.destroyed:
             hitObjects["turrets"].remove(turret)
+            tn -= 1
+    text = font.render(str(tn), True, green)
+    textRect = text.get_rect()
+    textRect.center = (textx, texty)
+    display_surface.blit(text, textRect.center)
     player.update(screen, tick, hitObjects)
 
     pygame.display.flip()
     clock.tick(fps)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 pygame.quit()
