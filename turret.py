@@ -3,9 +3,11 @@ import math
 from pygame.math import Vector2
 
 class Turret:
-    def __init__(self, x, y, hp, image, elmt, attackRange=450, pimage="airslash.png"):
+    def __init__(self, x, y, hp, image, elmt, b_size, attackRange=450, pimage="airslash.png"):
         self.x = x
         self.y = y
+        self.startx = x
+        self.starty = y
         self.hp = hp
         self.image = pygame.image.load(image)
         self.elmt = elmt
@@ -19,18 +21,19 @@ class Turret:
         self.healthRect = pygame.Rect(self.x-32, self.y-70, self.hp, 25)
         self.damageRect = pygame.Rect(self.x-32, self.y-70, self.max_hp, 25)
         self.destroyed = False
+        self.edgepos = [b_size[0]-self.x, b_size[1]-self.y]
 
     def render(self, screen, vlx, vly):
         self.x += vlx
         self.y += vly
         self.rect.centerx = self.x
         self.rect.centery = self.y
-        screen.blit(self.image, self.rect)
         self.healthRect.width = self.hp
         self.damageRect.x += vlx
         self.damageRect.y += vly
         self.healthRect.x += vlx
         self.healthRect.y += vly
+        screen.blit(self.image, self.rect)
         pygame.draw.rect(screen, (255, 0, 0), self.damageRect)
         pygame.draw.rect(screen, (0, 255, 0), self.healthRect)
 

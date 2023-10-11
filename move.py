@@ -1,7 +1,7 @@
 import pygame
 import player
 
-def move(playervlx, playervly):
+def move(playervlx, playervly, b_size, b_pos):
     keys = pygame.key.get_pressed()
     vlx = 0
     vly = 0
@@ -18,4 +18,16 @@ def move(playervlx, playervly):
             vlx = vlx*2
         if vly!=0:
             vly = vly*2
+    if b_pos[0]>0:
+
+        vlx = -vlx
+    if b_pos[1]>0:
+
+        vly = -vly
+    if b_pos[0]<-b_size[0]:
+
+        vlx = -vlx
+    if b_pos[1]<-b_size[1]:
+
+        vly = -vly
     return vlx, vly

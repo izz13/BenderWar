@@ -25,13 +25,14 @@ player = playerfireboonder
 
 
 bkrdpos = [0,0]
+b_size = [2400, 1920]
 
 hitObjects = {
     "turrets": []
 }
 
 for i in range(20):
-    hitObjects["turrets"].append(turret.Turret(randint(0,3200), randint(0,2560), randint(1,200), "fireTurret.png", "fire", pimage="fireturretAttack.png"))
+    hitObjects["turrets"].append(turret.Turret(randint(0,3200), randint(0,2560), randint(1,200), "fireTurret.png", "fire", b_size, pimage="fireturretAttack.png"))
 
 
 
@@ -43,28 +44,30 @@ while isRunning==True:
     for event in events:
         if event.type == pygame.QUIT:
             isRunning = False
-    vlx, vly = move(player.speed, player.speed)
-    if bkrdpos[0] > 0:
-        bkrdpos[0] = 0
-        vlx = 0
-    if bkrdpos[1] > 0:
-        bkrdpos[1] = 0
-        vly = 0
-    if bkrdpos[0] < -2400:
-        bkrdpos[0] = -2400
-        vlx = 0
-    if bkrdpos[1] < -1920:
-        bkrdpos[1] = -1920
-        vly = 0
+    vlx, vly = move(player.speed, player.speed, b_size, bkrdpos)
+
     bkrdpos[0] += vlx
     bkrdpos[1] += vly
     #print(bkrdpos)
+    screen.fill([0, 0, 0])
     screen.blit(firbkrd, bkrdpos)
     for turret in hitObjects["turrets"]:
+        if bkrdpos[0] > 0:
+            bkrdpos[0] = 0
+            vlx = 0
+        if bkrdpos[1] > 0:
+            bkrdpos[1] = 0
+            vly = 0
+        if bkrdpos[0] < -2400:
+            bkrdpos[0] = -2400
+            vlx = 0
+        if bkrdpos[1] < -1920:
+            bkrdpos[1] = -1920
+            vly = 0
         turret.update(screen, player.x, player.y, tick, player, vlx, vly)
         if turret.destroyed==True:
             hitObjects["turrets"].remove(turret)
-    player.update(screen, tick, hitObjectsw1    )
+    player.update(screen, tick, hitObjects)
 
 
     pygame.display.flip()
