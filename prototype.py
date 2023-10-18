@@ -21,7 +21,7 @@ playerairbndr = player.Player(100, "airbender.png", 40, "air", "airslash.png")
 playerwtrbndr = player.Player(100,"waterbender.png", 40, "water", "wtrwp.png")
 playerfireboonder = player.Player(90, "FireBender.png", 35, "fire", "FireAttack.png")
 player = playerfireboonder
-airtrt = turret.Turret(400, 580, 100, "airtrt.png", "air")
+airtrt = turret.Turret(400, 580, 100, "airtrt.png", "air", pimage="airslash.png")
 wtrtrt = turret.Turret(64, 320, 100, "wtrtrt.png", "water", pimage="wtrwp.png")
 earthtrt = turret.Turret(800, 620, 100, "earthTurret.png", "earth", pimage="EarthturretAttack.png")
 firetrt = turret.Turret(900, 790, 100, "fireTurret.png", "fire", pimage="fireturretAttack.png")
