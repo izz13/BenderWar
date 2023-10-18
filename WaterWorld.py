@@ -37,10 +37,12 @@ hitObjects = {
     "turrets": []
 }
 
+
 tn = 20
+b_size = [2400, 1920]
 
 for i in range(tn):
-    hitObjects["turrets"].append(turret.Turret(randint(0, 2800), randint(0, 2240), randint(1, 120), "wtrtrt.png", "water", pimage="wtrwp.png"))
+    hitObjects["turrets"].append(turret.Turret(randint(0, 2800), randint(0, 2240), randint(1, 120), "wtrtrt.png", "water", b_size, pimage="wtrwp.png"))
 isRunning = True
 while isRunning:
     tick = clock.get_time()
@@ -48,23 +50,23 @@ while isRunning:
     for event in events:
         if event.type == pygame.QUIT:
             isRunning = False
-    vlx, vly = move(player.speed, player.speed)
-    if bkrdpos[0] > 0:
-        bkrdpos[0] = 0
-        vlx = 0
-    if bkrdpos[1] > 0:
-        bkrdpos[1] = 0
-        vly = 0
-    if bkrdpos[0] < -2400:
-        bkrdpos[0] = -2400
-        vlx = 0
-    if bkrdpos[1] < -1920:
-        bkrdpos[1] = -1920
-        vly = 0
+    vlx, vly = move(player.speed, player.speed, b_size, bkrdpos)
     bkrdpos[0] += vlx
     bkrdpos[1] += vly
     screen.blit(wtrbkrd, bkrdpos)
     for turret in hitObjects["turrets"]:
+        if bkrdpos[0] > 0:
+            bkrdpos[0] = 0
+            vlx = 0
+        if bkrdpos[1] > 0:
+            bkrdpos[1] = 0
+            vly = 0
+        if bkrdpos[0] < -2400:
+            bkrdpos[0] = -2400
+            vlx = 0
+        if bkrdpos[1] < -1920:
+            bkrdpos[1] = -1920
+            vly = 0
         turret.update(screen, player.x, player.y, tick, player, vlx, vly)
         if turret.destroyed:
             hitObjects["turrets"].remove(turret)
@@ -73,7 +75,7 @@ while isRunning:
     textRect = text.get_rect()
     textRect.center = (textx, texty)
     screen.blit(text, textRect.center)
-    player.update(screen, tick, hitObjects)
+    player.update(screen, tick, hitObjects, vlx, vly)
 
     pygame.display.flip()
     clock.tick(fps)

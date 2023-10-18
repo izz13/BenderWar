@@ -21,8 +21,13 @@ class Player:
         self.basicattackl = basicattackl
         self.basicattacktimer = 0
         self.basicattack = False
+        self.projattackcooldown = 100
+        self.projattackl = 100
+        self.projattacktimer = 0
+        self.projattack = False
         self.healthRect = pygame.Rect(self.x-32, self.y-70, self.hp, 25)
         self.damageRect = pygame.Rect(self.x-32, self.y-70, self.max_hp, 25)
+        self.projectiles = []
     def render(self, screen):
         self.rect.centerx = self.x
         self.rect.centery = self.y
@@ -43,11 +48,11 @@ class Player:
             self.y+=self.speed
         if self.x<0:
            self.x=0
-        if self.x>800-self.w:
-           self.x=800-self.w
-        if self.y<0:
+        if self.x > 800-self.w:
+           self.x = 800-self.w
+        if self.y < 0:
             self.y = 0
-        if self.y>640-self.h:
+        if self.y > 640-self.h:
             self.y = 640-self.h
     def basic_attack(self, pos, screen, objects):
         attack_rect = pygame.Rect(0, 0, 32, 32)
@@ -78,6 +83,7 @@ class Player:
 
     def attack(self, screen, dt, objects):
         mouse_pos = pygame.mouse.get_pos()
+        keys = pygame.key.get_pressed()
         if pygame.mouse.get_pressed()[0] and self.attack_timer >= self.basicattackcooldown:
             self.basicattack = True
             self.attack_timer = 0
@@ -90,10 +96,54 @@ class Player:
                 self.basicattack = False
         if self.basicattack == False and self.attack_timer <= self.basicattackcooldown:
             self.attack_timer += dt
+        if keys[pygame.K_q] and self.projattacktimer >= self.projattackcooldown:
+            d = Vector2([mouse_pos[0]-self.x, mouse_pos[1]-self.y])
+            self.projectiles.append(Projectile(self.x, self.y, 3, d, self.basic_attack_image, self.dmg))
+            self.projattacktimer = 0
+        if self.projattacktimer < self.projattackcooldown:
+            self.projattacktimer += dt
+
     def gothit(self, dmg):
         self.hp -= dmg
 
 
-    def update(self, screen, dt, objects):
+    def update(self, screen, dt, objects, vlx, vly):
         self.render(screen)
         self.attack(screen, dt, objects)
+        for p in self.projectiles:
+            p.update(screen, dt, vlx, vly)
+
+class Projectile:
+    def __init__(self, x, y, speed, direction, image, dmg):
+        self.x = x
+        self.y = y
+        self.speed = speed
+        self.direction = direction
+        self.rect = pygame.Rect(self.x, self.y, 32, 32)
+        self.image = image
+        self.destroyed = False
+        self.timer = 0
+        self.timerl = 10000
+        self.dmg = dmg
+    def render(self, screen, vlx, vly):
+        self.x += vlx
+        self.y += vly
+        self.rect.center = [self.x, self.y]
+        screen.blit(self.image,self.rect)
+        #pygame.draw.rect(screen, [99, 66, 00], self.rect)
+    def move(self):
+        if self.direction.length() != 0:
+            vel = self.direction.normalize()
+            self.x += vel[0] * self.speed
+            self.y += vel[1] * self.speed
+    def destroy(self, dt):
+
+        if self.timer >= self.timerl:
+            self.destroyed = True
+        else:
+            self.timer += dt
+
+    def update(self, screen, dt, vlx, vly):
+        self.move()
+        self.render(screen, vlx, vly)
+        self.destroy(dt)
