@@ -23,7 +23,7 @@ textx = 0
 texty = 0
 pygame.display.set_caption('Show Text')
 font = pygame.font.Font('freesansbold.ttf', 32)
-wtrbkrd = pygame.image.load("wtrbkgd.png")
+airbkrd = pygame.image.load("airbkrd.png")
 
 playerEarthbender = player.Player(150, "EARTH.png", 40, "earth", "EarthAttack.png")
 playerairbndr = player.Player(100, "airbender.png", 40, "air", "airslash.png")
@@ -40,7 +40,7 @@ hitObjects = {
 tn = 20
 
 for i in range(tn):
-    hitObjects["turrets"].append(turret.Turret(randint(0, 2800), randint(0, 2240), randint(1, 120), "wtrtrt.png", "water", pimage="wtrwp.png"))
+    hitObjects["turrets"].append(turret.Turret(randint(0, 2800), randint(0, 2240), randint(1, 120), "airtrt.png", "air", pimage="airslash.png"))
 isRunning = True
 while isRunning:
     tick = clock.get_time()
@@ -63,7 +63,7 @@ while isRunning:
         vly = 0
     bkrdpos[0] += vlx
     bkrdpos[1] += vly
-    screen.blit(wtrbkrd, bkrdpos)
+    screen.blit(airbkrd, bkrdpos)
     for turret in hitObjects["turrets"]:
         turret.update(screen, player.x, player.y, tick, player, vlx, vly)
         if turret.destroyed:
@@ -78,3 +78,4 @@ while isRunning:
     pygame.display.flip()
     clock.tick(fps)
 pygame.quit()
+
