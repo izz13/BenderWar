@@ -14,6 +14,9 @@ size = [800, 640]
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 fps = 60
+white = (255, 255, 255)
+green = (0, 255, 0)
+blue = (0, 0, 128)
 
 EarthWorldbkrnd = pygame.image.load("EarthWorld.png")
 
@@ -67,7 +70,7 @@ while isRunning==True:
         turret.update(screen, player.x, player.y, tick, player, vlx, vly)
         if turret.destroyed==True:
             hitObjects["turrets"].remove(turret)
-    player.update(screen, tick, hitObjects)
+    player.update(screen, tick, hitObjects, vlx, vly)
 
 
     pygame.display.flip()
