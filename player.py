@@ -21,7 +21,7 @@ class Player:
         self.basicattackl = basicattackl
         self.basicattacktimer = 0
         self.basicattack = False
-        self.projattackcooldown = 100
+        self.projattackcooldown = 750
         self.projattackl = 100
         self.projattacktimer = 0
         self.projattack = False
@@ -98,7 +98,7 @@ class Player:
             self.attack_timer += dt
         if keys[pygame.K_q] and self.projattacktimer >= self.projattackcooldown:
             d = Vector2([mouse_pos[0]-self.x, mouse_pos[1]-self.y])
-            self.projectiles.append(Projectile(self.x, self.y, 3, d, self.basic_attack_image, self.dmg))
+            self.projectiles.append(Projectile(self.x, self.y, 10, d, self.basic_attack_image, self.dmg))
             self.projattacktimer = 0
         if self.projattacktimer < self.projattackcooldown:
             self.projattacktimer += dt

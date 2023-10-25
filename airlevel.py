@@ -6,7 +6,6 @@ from random import randint
 
 """
 Jayden's to-do list: 
-get started on coding the Air level
 """
 
 
@@ -29,7 +28,7 @@ playerEarthbender = player.Player(150, "EARTH.png", 40, "earth", "EarthAttack.pn
 playerairbndr = player.Player(100, "airbender.png", 40, "air", "airslash.png")
 playerwtrbndr = player.Player(100, "waterbender.png", 40, "water", "wtrwp.png")
 playerfireboonder = player.Player(90, "FireBender.png", 35, "fire", "FireAttack.png")
-player = playerfireboonder
+player = playerairbndr
 
 bkrdpos = [0, 0]
 
@@ -74,7 +73,7 @@ while isRunning:
     textRect = text.get_rect()
     textRect.center = (textx, texty)
     screen.blit(text, textRect.center)
-    player.update(screen, tick, hitObjects)
+    player.update(screen, tick, hitObjects, vlx, vly)
 
     pygame.display.flip()
     clock.tick(fps)
