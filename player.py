@@ -98,7 +98,7 @@ class Player:
             self.attack_timer += dt
         if keys[pygame.K_q] and self.projattacktimer >= self.projattackcooldown:
             d = Vector2([mouse_pos[0]-self.x, mouse_pos[1]-self.y])
-            self.projectiles.append(Projectile(self.x, self.y, 10, d, self.basic_attack_image, self.dmg))
+            self.projectiles.append(Projectile(self.x, self.y, 3, d, self.basic_attack_image, self.dmg))
             self.projattacktimer = 0
         if self.projattacktimer < self.projattackcooldown:
             self.projattacktimer += dt
@@ -111,7 +111,9 @@ class Player:
         self.render(screen)
         self.attack(screen, dt, objects)
         for p in self.projectiles:
-            p.update(screen, dt, vlx, vly)
+            if p.destroyed==True:
+                self.projectiles.remove(p)
+            p.update(screen, dt, vlx, vly, objects)
 
 class Projectile:
     def __init__(self, x, y, speed, direction, image, dmg):
@@ -143,7 +145,89 @@ class Projectile:
         else:
             self.timer += dt
 
-    def update(self, screen, dt, vlx, vly):
+    def hit(self, objects):
+        keys = objects.keys()
+        for k in keys:
+            hit = False
+            for o in objects[k]:
+                if self.rect.colliderect(o.rect):
+                    o.hp-=self.dmg
+                    self.destroyed = True
+                    hit = True
+                    break
+            if hit:
+                break
+
+    def update(self, screen, dt, vlx, vly, objects):
         self.move()
         self.render(screen, vlx, vly)
+        self.hit(objects)
         self.destroy(dt)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
