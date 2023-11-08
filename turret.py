@@ -1,5 +1,6 @@
 import pygame
 import math
+from random import randint
 from pygame.math import Vector2
 
 class Turret:
@@ -21,6 +22,7 @@ class Turret:
         self.healthRect = pygame.Rect(self.x-32, self.y-70, self.hp, 25)
         self.damageRect = pygame.Rect(self.x-32, self.y-70, self.max_hp, 25)
         self.destroyed = False
+        self.b_size = b_size
         self.edgepos = [b_size[0]-self.x, b_size[1]-self.y]
 
     def render(self, screen, vlx, vly):
@@ -108,3 +110,31 @@ class Projectile:
         self.render(screen, vlx, vly)
         self.destroy(dt)
         self.hitplayer(player)
+
+class Necromancer(Turret):
+    def __init__(self, x, y, hp, image, elmt, b_size, attackRange=450, pimage="airslash.png"):
+        super().__init__(x, y, hp, image, elmt, b_size, attackRange, pimage)
+        self.spawn = False
+        self.spawnrange = 100
+        self.spawntimer = 0
+        self.spawnl = 1000
+    def spawnskeleton(self):
+        return Skeleton(self.x+randint(-self.spawnrange, self.spawnrange), self.y+randint(-self.spawnrange, self.spawnrange), 5, "skltn.png", "skltn", self.b_size)
+
+    def spawner(self):
+        if self.spawntimer >= self.spawnl:
+            self.spawn = True
+            self.spawntimer = 0
+        elif self.spawn == False:
+            self.spawntimer += 1
+    def update(self, screen, px, py, dt, player, vlx, vly):
+        self.render(screen, vlx, vly)
+        self.spawner()
+        self.destroy()
+
+
+
+
+class Skeleton(Turret):
+    def __init__(self, x, y, hp, image, elmt, b_size, attackRange=450, pimage="bnetrw.png"):
+        super().__init__(x, y, hp, image, elmt, b_size, attackRange, pimage)
