@@ -22,7 +22,7 @@ class Player:
         self.basicattacktimer = 0
         self.basicattack = False
         self.projattackcooldown = 750
-        self.projattackl = 100
+        self.projattackl = 0
         self.projattacktimer = 0
         self.projattack = False
         self.healthRect = pygame.Rect(self.x-32, self.y-70, self.hp, 25)
@@ -139,7 +139,6 @@ class Projectile:
             self.x += vel[0] * self.speed
             self.y += vel[1] * self.speed
     def destroy(self, dt):
-
         if self.timer >= self.timerl:
             self.destroyed = True
         else:

@@ -117,7 +117,7 @@ class Necromancer(Turret):
         self.spawn = False
         self.spawnrange = 100
         self.spawntimer = 0
-        self.spawnl = 1000
+        self.spawnl = 200
     def spawnskeleton(self):
         return Skeleton(self.x+randint(-self.spawnrange, self.spawnrange), self.y+randint(-self.spawnrange, self.spawnrange), 5, "skltn.png", "skltn", self.b_size)
 
