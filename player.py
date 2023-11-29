@@ -1,8 +1,11 @@
 import pygame
 from pygame.math import Vector2
 
+
+pygame.mixer.init()
+
 class Player:
-    def __init__(self, hp, image, dmg, elmt, basic_attack_image, sprint=8, speed=4, basicattackcooldown=500, basicattackl=500):
+    def __init__(self, hp, image, dmg, elmt, basic_attack_image, basicattacksound, prjctleatksnd, sprint=8, speed=4, basicattackcooldown=500, basicattackl=500):
         self.hp = hp
         self.max_hp = hp
         self.speed = speed
@@ -11,6 +14,8 @@ class Player:
         self.elmt = elmt
         self.basic_attack_image = pygame.image.load(basic_attack_image)
         self.image = pygame.image.load(image)
+        self.basicattacksound = pygame.mixer.Sound(basicattacksound)
+        self.prjctleatksnd = pygame.mixer.Sound(prjctleatksnd)
         self.x = 380
         self.y = 320
         self.w = 64
@@ -85,6 +90,7 @@ class Player:
         mouse_pos = pygame.mouse.get_pos()
         keys = pygame.key.get_pressed()
         if pygame.mouse.get_pressed()[0] and self.attack_timer >= self.basicattackcooldown:
+            pygame.mixer.Sound.play(self.basicattacksound)
             self.basicattack = True
             self.attack_timer = 0
         if self.basicattack == True:
@@ -156,6 +162,7 @@ class Projectile:
                     break
             if hit:
                 break
+
 
     def update(self, screen, dt, vlx, vly, objects):
         self.move()

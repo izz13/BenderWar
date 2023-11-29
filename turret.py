@@ -25,6 +25,7 @@ class Turret:
         self.b_size = b_size
         self.edgepos = [b_size[0]-self.x, b_size[1]-self.y]
 
+
     def render(self, screen, vlx, vly):
         self.x += vlx
         self.y += vly
@@ -138,3 +139,31 @@ class Necromancer(Turret):
 class Skeleton(Turret):
     def __init__(self, x, y, hp, image, elmt, b_size, attackRange=450, pimage="bnetrw.png"):
         super().__init__(x, y, hp, image, elmt, b_size, attackRange, pimage)
+        self.fkedstryd = pygame.image.load("deadskltn.png")
+        self.rsrctd = pygame.image.load("bknskltn.png")
+        self.rsrcttimer = 0
+        self.rsrctl = 1000
+        self.rsrctusd = False
+    def destroy(self, dt):
+        if self.hp <=0:
+            if self.rsrctusd != True:
+                if self.rsrcttimer < self.rsrctl:
+                    self.rsrcttimer += dt
+                    self.image = self.fkedstryd
+                else:
+                    self.image = self.rsrctd
+                    self.hp = self.max_hp
+                    self.rsrcttimer = 0
+                    self.rsrctusd = True
+            else:
+                self.destroyed = True
+
+    def update(self, screen, px, py, dt, player, vlx, vly):
+        self.render(screen, vlx, vly)
+        self.attack(px, py)
+        if len(self.projectiles) > 0:
+            for p in self.projectiles:
+                p.update(screen, dt, player, vlx, vly)
+                if p.destroyed:
+                    self.projectiles.remove(p)
+        self.destroy(dt)
