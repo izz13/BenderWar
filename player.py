@@ -33,6 +33,7 @@ class Player:
         self.healthRect = pygame.Rect(self.x-32, self.y-70, self.hp, 25)
         self.damageRect = pygame.Rect(self.x-32, self.y-70, self.max_hp, 25)
         self.projectiles = []
+        self.proDamage = 3
     def render(self, screen):
         self.rect.centerx = self.x
         self.rect.centery = self.y
@@ -104,7 +105,7 @@ class Player:
             self.attack_timer += dt
         if keys[pygame.K_q] and self.projattacktimer >= self.projattackcooldown:
             d = Vector2([mouse_pos[0]-self.x, mouse_pos[1]-self.y])
-            self.projectiles.append(Projectile(self.x, self.y, 3, d, self.basic_attack_image, self.dmg))
+            self.projectiles.append(Projectile(self.x, self.y, 3, d, self.basic_attack_image, self.proDamage))
             self.projattacktimer = 0
         if self.projattacktimer < self.projattackcooldown:
             self.projattacktimer += dt
