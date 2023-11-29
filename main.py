@@ -1,6 +1,7 @@
 import pygame
 from mainMenu import *
 from patch_notes_1_0 import *
+from fireWorld import *
 
 pygame.init()
 
@@ -11,7 +12,9 @@ fps = 60
 mainmenu = MainMenu(screen, fps, clock)
 patch_notes = PatchNotes(screen, fps, clock)
 
-scene = "mainmenu"
+fireworld = FireWorld(screen, fps, clock)
+
+scene = "fireworld"
 
 while True:
 
@@ -23,4 +26,6 @@ while True:
             mainmenu.change_scene_to = ""
     if scene=="patch_notes":
         patch_notes.gameloop()
+    if scene == "fireworld":
+        fireworld.gameloop()
 
