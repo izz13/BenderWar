@@ -24,10 +24,10 @@ pygame.display.set_caption('Show Text')
 font = pygame.font.Font('freesansbold.ttf', 32)
 airbkrd = pygame.image.load("airbkrd.png")
 
-playerEarthbender = player.Player(150, "EARTH.png", 40, "earth", "EarthAttack.png")
-playerairbndr = player.Player(100, "airbender.png", 40, "air", "airslash.png")
-playerwtrbndr = player.Player(100, "waterbender.png", 40, "water", "wtrwp.png")
-playerfireboonder = player.Player(90, "FireBender.png", 35, "fire", "FireAttack.png")
+playerEarthbender = player.Player(150, "EARTH.png", 40, "earth", "EarthAttack.png", "rockatksnd.mp3", "rockatksnd.mp3")
+playerairbndr = player.Player(100, "airbender.png", 40, "air", "airslash.png", "airslash.mp3", "airslash.mp3")
+#playerwtrbndr = player.Player(100, "waterbender.png", 40, "water", "wtrwp.png", "wateratk.mp3", "wateratk.mp3")
+playerfireboonder = player.Player(90, "FireBender.png", 35, "fire", "FireAttack.png", "fireatksnd.mp3", "fireatksnd.mp3")
 player = playerairbndr
 
 bkrdpos = [0, 0]
