@@ -1,5 +1,5 @@
 import pygame
-
+"""
 def gameloop():
     pygame.init()
     size = [800, 640]
@@ -37,6 +37,32 @@ def gameloop():
 
 
 
+"""
+
+
+
+
+class PatchNotes:
+
+    def __init__(self, screen, fps, clock):
+        self.screen = screen
+        self.bckgroundImage = pygame.image.load("patch_notes.png")
+        self.fps = fps
+        self.clock =clock
+
+    def gameloop(self):
+
+
+        tick=self.clock.get_time()
+        events = pygame.event.get()
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
+        self.screen.fill([0, 0, 0])
+        self.screen.blit(self.bckgroundImage, [0, 0])
+        pygame.display.flip()
+        self.clock.tick(self.fps)
 
 
 
@@ -59,6 +85,21 @@ def gameloop():
 
 
 
-    pygame.quit()
-if __name__=="__main__":
-    gameloop()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
