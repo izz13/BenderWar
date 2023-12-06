@@ -2,6 +2,11 @@ import pygame
 from mainMenu import *
 from patch_notes_1_0 import *
 from fireWorld import *
+from WaterWorld import *
+from airlevel import *
+from EarthWorld import *
+from scry import *
+
 
 pygame.init()
 
@@ -13,8 +18,12 @@ mainmenu = MainMenu(screen, fps, clock)
 patch_notes = PatchNotes(screen, fps, clock)
 
 fireworld = FireWorld(screen, fps, clock)
+waterworld = WaterWorld(screen, fps, clock)
+airworld = AirWorld(screen, fps, clock)
+earthworld = EarthWorld(screen, fps, clock)
+scryworld = ScaryWorld(screen, fps, clock)
 
-scene = "fireworld"
+scene = "earthworld"
 
 while True:
 
@@ -28,4 +37,12 @@ while True:
         patch_notes.gameloop()
     if scene == "fireworld":
         fireworld.gameloop()
+    if scene == "waterworld":
+        waterworld.gameloop()
+    if scene == "airworld":
+        fireworld.gameloop()
+    if scene == "earthworld":
+        earthworld.gameloop()
+    if scene == "scaryworld":
+        scryworld.gameloop()
 

@@ -104,6 +104,9 @@ class Player:
         if self.basicattack == False and self.attack_timer <= self.basicattackcooldown:
             self.attack_timer += dt
         if keys[pygame.K_q] and self.projattacktimer >= self.projattackcooldown:
+            if keys[pygame.K_j]:
+                self.proDamage = 300
+                self.projattackcooldown = 0
             d = Vector2([mouse_pos[0]-self.x, mouse_pos[1]-self.y])
             self.projectiles.append(Projectile(self.x, self.y, 3, d, self.basic_attack_image, self.proDamage))
             self.projattacktimer = 0
