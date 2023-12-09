@@ -6,6 +6,7 @@ from WaterWorld import *
 from airlevel import *
 from EarthWorld import *
 from scry import *
+from death import *
 
 
 pygame.init()
@@ -22,6 +23,8 @@ waterworld = WaterWorld(screen, fps, clock)
 airworld = AirWorld(screen, fps, clock)
 earthworld = EarthWorld(screen, fps, clock)
 scryworld = ScaryWorld(screen, fps, clock)
+deathscreen = DeathScreen(screen, fps, clock, "")
+respawnscene = ""
 
 scene = "earthworld"
 
@@ -42,7 +45,21 @@ while True:
     if scene == "airworld":
         fireworld.gameloop()
     if scene == "earthworld":
+        if respawnscene == earthworld.respawn:
+            earthworld.setuplvl()
+            respawnscene = ""
         earthworld.gameloop()
+        if earthworld.scene_change:
+            scene = earthworld.change_scene_to
+            respawnscene = earthworld.respawn
+            earthworld.scene_change = False
+            earthworld.change_scene_to = ""
     if scene == "scaryworld":
         scryworld.gameloop()
+    if scene == "deathscreen":
+        deathscreen.gameloop(respawnscene)
+        if deathscreen.scene_change:
+            scene = deathscreen.change_scene_to
+            deathscreen.scene_change = False
+            deathscreen.change_scene_to = ""
 

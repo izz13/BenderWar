@@ -27,27 +27,32 @@ class EarthWorld:
         pygame.display.set_caption('Show Text')
         self.font = pygame.font.Font('freesansbold.ttf', 32)
         self.EarthWorldbkrnd = pygame.image.load("EarthWorld.png")
+        self.respawn = "earthworld"
 
         self.playerEarthbender = player.Player(150, "EARTH.png", 40, "earth", "EarthAttack.png", "rockatksnd.mp3", "rockatksnd.mp3")
         self.playerairbndr = player.Player(100, "airbender.png", 40, "air", "airslash.png", "airslash.mp3", "airslash.mp3")
         #playerwtrbndr = player.Player(100,"waterbender.png", 40, "water", "wtrwp.png", "wateratk.mp3", "wateratk.mp3")
         self.playerfireboonder = player.Player(90, "FireBender.png", 35, "fire", "FireAttack.png", "fireatksnd.mp3", "fireatksnd.mp3")
         self.player = self.playerEarthbender
+        self.scene_change = False
+        self.change_scene_to = ""
 
 
         self.tn = 20
         self.bkrdpos = [0,0]
         self.b_size = [2400, 1920]
+        self.setuplvl()
 
+    def setuplvl(self):
+        self.player.hp = self.player.max_hp
         self.hitObjects = {
             "turrets": []
         }
 
         for i in range(self.tn):
-            self.hitObjects["turrets"].append(turret.Turret(randint(0,3200), randint(0,2560), randint(1,200), "earthTurret.png", "earth", self.b_size, pimage="EarthAttack.png"))
-
-
-
+            self.hitObjects["turrets"].append(
+                turret.Turret(randint(0, 3200), randint(0, 2560), randint(1, 200), "earthTurret.png", "earth",
+                              self.b_size, pimage="EarthAttack.png"))
 
     def gameloop(self):
         tick=self.clock.get_time()
@@ -62,6 +67,9 @@ class EarthWorld:
         #print(bkrdpos)
         self.screen.fill([0, 0, 0])
         self.screen.blit(self.EarthWorldbkrnd, self.bkrdpos)
+        if self.player.hp <= 0:
+            self.scene_change = True
+            self.change_scene_to = "deathscreen"
         for turret in self.hitObjects["turrets"]:
             if self.bkrdpos[0] > 0:
                 self.bkrdpos[0] = 0
@@ -78,6 +86,7 @@ class EarthWorld:
             turret.update(self.screen, self.player.x, self.player.y, tick, self.player, vlx, vly)
             if turret.destroyed==True:
                 self.hitObjects["turrets"].remove(turret)
+                self.tn -= 1
         text = self.font.render(str(self.tn), True, green)
         textRect = text.get_rect()
         textRect.center = (self.textx, self.texty)

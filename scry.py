@@ -60,6 +60,7 @@ class ScaryWorld:
         self.bkrdpos[1] += vly
         self.screen.blit(self.scrybkrd, self.bkrdpos)
         for t in self.hitObjects["turrets"]:
+            self.tn = len(self.hitObjects["turrets"])
             if self.bkrdpos[0] > 0:
                 self.bkrdpos[0] = 0
                 vlx = 0
