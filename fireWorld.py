@@ -27,17 +27,26 @@ class FireWorld:
         #self.playerwtrbndr = player.Player(100, "waterbender.png", 40, "water", "wtrwp.png", "wateratk.mp3", "wateratk.mp3")
         self.playerfireboonder = player.Player(90, "FireBender.png", 35, "fire", "FireAttack.png", "fireatksnd.mp3", "fireatksnd.mp3")
         self.player = self.playerfireboonder
+        self.respawn = "fireworld"
+        self.scene_change = False
+        self.change_scene_to = ""
 
 
         self.bkrdpos = [0,0]
         self.b_size = [2400, 1920]
+        self.tn = 20
+        self.setuplvl()
 
+    def setuplvl(self):
+        self.player.hp = self.player.max_hp
         self.hitObjects = {
-                "turrets": []
-            }
+            "turrets": []
+        }
 
-        for i in range(20):
-            self.hitObjects["turrets"].append(turret.Turret(randint(0,3200), randint(0,2560), randint(1,200), "fireTurret.png", "fire", self.b_size, pimage="fireturretAttack.png"))
+        for i in range(self.tn):
+            self.hitObjects["turrets"].append(
+                    turret.Turret(randint(0, 3200), randint(0, 2560), randint(1, 200), "fireTurret.png", "fire",
+                                  self.b_size, pimage="fireturretAttack.png"))
 
     def gameloop(self):
 
@@ -53,6 +62,9 @@ class FireWorld:
         #print(bkrdpos)
         self.screen.fill([0, 0, 0])
         self.screen.blit(self.firbkrd, self.bkrdpos)
+        if self.player.hp <= 0:
+            self.scene_change = True
+            self.change_scene_to = "deathscreen"
         for turret in self.hitObjects["turrets"]:
             if self.bkrdpos[0] > 0:
                 self.bkrdpos[0] = 0

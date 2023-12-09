@@ -35,19 +35,25 @@ class ScaryWorld:
         #playerwtrbndr = player.Player(100, "waterbender.png", 40, "water", "wtrwp.png", "wateratk.mp3", "wateratk.mp3")
         self.playerfireboonder = player.Player(90, "FireBender.png", 35, "fire", "FireAttack.png", "fireatksnd.mp3", "fireatksnd.mp3")
         self.player = self.playerfireboonder
+        self.respawn = "scaryworld"
+        self.scene_change = False
+        self.change_scene_to = ""
 
         self.bkrdpos = [0, 0]
-
-        self.hitObjects = {
-            "turrets": []
-        }
-
-
         self.tn = 20
         self.b_size = [2400, 1920]
+        self.setuplvl()
+
+    def setuplvl(self):
+        self.player.hp = self.player.max_hp
+        self.hitObjects = {
+                "turrets": []
+        }
 
         for i in range(self.tn):
-            self.hitObjects["turrets"].append(turret.Turret(randint(0, 2800), randint(0, 2240), randint(1, 120), "zoombie.png", "zmbe", self.b_size, pimage="hand.png"))
+            self.hitObjects["turrets"].append(
+                    turret.Turret(randint(0, 3200), randint(0, 2560), randint(1, 200), "zoombie.png", "undead",
+                                  self.b_size, pimage="hand.png"))
         self.hitObjects["turrets"].append(turret.Necromancer(randint(1400, 1400), randint(1120, 1120), randint(1, 120), "ncrmncr.png", "ncrmncr", self.b_size))
     def gameloop(self):
         tick = self.clock.get_time()
@@ -59,6 +65,9 @@ class ScaryWorld:
         self.bkrdpos[0] += vlx
         self.bkrdpos[1] += vly
         self.screen.blit(self.scrybkrd, self.bkrdpos)
+        if self.player.hp <= 0:
+            self.scene_change = True
+            self.change_scene_to = "deathscreen"
         for t in self.hitObjects["turrets"]:
             self.tn = len(self.hitObjects["turrets"])
             if self.bkrdpos[0] > 0:
@@ -85,7 +94,7 @@ class ScaryWorld:
         textRect = text.get_rect()
         textRect.center = (self.textx, self.texty)
         self.screen.blit(text, textRect.center)
-        player.update(self.screen, tick, self.hitObjects, vlx, vly)
+        self.player.update(self.screen, tick, self.hitObjects, vlx, vly)
 
         pygame.display.flip()
         self.clock.tick(self.fps)

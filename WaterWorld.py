@@ -36,19 +36,25 @@ class WaterWorld:
         #playerwtrbndr = player.Player(100, "waterbender.png", 40, "water", "wtrwp.png", "wateratk.mp3", "wateratk.mp3")
         self.playerfireboonder = player.Player(90, "FireBender.png", 35, "fire", "FireAttack.png", "fireatksnd.mp3", "fireatksnd.mp3")
         self.player = self.playerfireboonder
+        self.respawn = "waterworld"
+        self.scene_change = False
+        self.change_scene_to = ""
 
         self.bkrdpos = [0, 0]
+        self.tn = 20
+        self.b_size = [2400, 1920]
+        self.setuplvl()
 
+    def setuplvl(self):
+        self.player.hp = self.player.max_hp
         self.hitObjects = {
             "turrets": []
         }
 
-
-        self.tn = 20
-        self.b_size = [2400, 1920]
-
         for i in range(self.tn):
-            self.hitObjects["turrets"].append(turret.Turret(randint(0, 2800), randint(0, 2240), randint(1, 120), "wtrtrt.png", "water", self.b_size, pimage="wtrwp.png"))
+            self.hitObjects["turrets"].append(
+                turret.Turret(randint(0, 3200), randint(0, 2560), randint(1, 200), "wtrtrt.png", "water",
+            self.b_size, pimage="wtrwp.png"))
     def gameloop(self):
         tick = self.clock.get_time()
         events = pygame.event.get()
@@ -59,6 +65,9 @@ class WaterWorld:
         self.bkrdpos[0] += vlx
         self.bkrdpos[1] += vly
         self.screen.blit(self.wtrbkrd, self.bkrdpos)
+        if self.player.hp <= 0:
+            self.scene_change = True
+            self.change_scene_to = "deathscreen"
         for turret in self.hitObjects["turrets"]:
             if self.bkrdpos[0] > 0:
                 self.bkrdpos[0] = 0

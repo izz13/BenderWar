@@ -35,18 +35,25 @@ class AirWorld:
         #playerwtrbndr = player.Player(100, "waterbender.png", 40, "water", "wtrwp.png", "wateratk.mp3", "wateratk.mp3")
         self.playerfireboonder = player.Player(90, "FireBender.png", 35, "fire", "FireAttack.png", "fireatksnd.mp3", "fireatksnd.mp3")
         self.player = self.playerairbndr
+        self.respawn = "airworld"
+        self.scene_change = False
+        self.change_scene_to = ""
 
         self.bkrdpos = [0, 0]
-
-        self.hitObjects = {
-            "turrets": []
-        }
-
         self.tn = 20
         self.b_size = [2400, 1920]
+        self.setuplvl()
+
+    def setuplvl(self):
+        self.player.hp = self.player.max_hp
+        self.hitObjects = {
+                "turrets": []
+        }
 
         for i in range(self.tn):
-            self.hitObjects["turrets"].append(turret.Turret(randint(0, 2800), randint(0, 2240), randint(1, 120), "airtrt.png", "air", self.b_size, pimage="airslash.png"))
+            self.hitObjects["turrets"].append(
+                turret.Turret(randint(0, 3200), randint(0, 2560), randint(1, 200), "airtrt.png", "air",
+                    self.b_size, pimage="airslash.png"))
     def gameloop(self):
         tick = self.clock.get_time()
         events = pygame.event.get()
@@ -57,6 +64,9 @@ class AirWorld:
         self.bkrdpos[0] += vlx
         self.bkrdpos[1] += vly
         self.screen.blit(self.airbkrd, self.bkrdpos)
+        if self.player.hp <= 0:
+            self.scene_change = True
+            self.change_scene_to = "deathscreen"
         for turret in self.hitObjects["turrets"]:
             if self.bkrdpos[0] > 0:
                 self.bkrdpos[0] = 0
@@ -70,7 +80,7 @@ class AirWorld:
             if self.bkrdpos[1] < -1920:
                 self.bkrdpos[1] = -1920
                 vly = 0
-            turret.update(self.screen, self.player.x, self.player.y, tick, player, vlx, vly)
+            turret.update(self.screen, self.player.x, self.player.y, tick, self.player, vlx, vly)
             if turret.destroyed:
                 self.hitObjects["turrets"].remove(turret)
                 self.tn -= 1

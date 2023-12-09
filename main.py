@@ -26,7 +26,7 @@ scryworld = ScaryWorld(screen, fps, clock)
 deathscreen = DeathScreen(screen, fps, clock, "")
 respawnscene = ""
 
-scene = "earthworld"
+scene = "scaryworld"
 
 while True:
 
@@ -39,11 +39,35 @@ while True:
     if scene=="patch_notes":
         patch_notes.gameloop()
     if scene == "fireworld":
+        if respawnscene == fireworld.respawn:
+            fireworld.setuplvl()
+            respawnscene = ""
         fireworld.gameloop()
+        if fireworld.scene_change:
+            scene = fireworld.change_scene_to
+            respawnscene = fireworld.respawn
+            fireworld.scene_change = False
+            fireworld.change_scene_to = ""
     if scene == "waterworld":
+        if respawnscene == waterworld.respawn:
+            waterworld.setuplvl()
+            respawnscene = ""
         waterworld.gameloop()
+        if waterworld.scene_change:
+            scene = waterworld.change_scene_to
+            respawnscene = waterworld.respawn
+            waterworld.scene_change = False
+            waterworld.change_scene_to = ""
     if scene == "airworld":
-        fireworld.gameloop()
+        if respawnscene == airworld.respawn:
+            airworld.setuplvl()
+            respawnscene = ""
+        airworld.gameloop()
+        if airworld.scene_change:
+            scene = airworld.change_scene_to
+            respawnscene = airworld.respawn
+            airworld.scene_change = False
+            airworld.change_scene_to = ""
     if scene == "earthworld":
         if respawnscene == earthworld.respawn:
             earthworld.setuplvl()
@@ -55,7 +79,15 @@ while True:
             earthworld.scene_change = False
             earthworld.change_scene_to = ""
     if scene == "scaryworld":
+        if respawnscene == scryworld.respawn:
+            scryworld.setuplvl()
+            respawnscene = ""
         scryworld.gameloop()
+        if scryworld.scene_change:
+            scene = scryworld.change_scene_to
+            respawnscene = scryworld.respawn
+            scryworld.scene_change = False
+            scryworld.change_scene_to = ""
     if scene == "deathscreen":
         deathscreen.gameloop(respawnscene)
         if deathscreen.scene_change:
